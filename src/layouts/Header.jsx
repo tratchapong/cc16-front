@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 
 export default function Header() {
@@ -11,20 +11,10 @@ export default function Header() {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           <li>
-            <a>Link</a>
+            <Link to="/">Login</Link>
           </li>
           <li>
-            <details>
-              <summary>Parent</summary>
-              <ul className="p-2 bg-base-100 rounded-t-none">
-                <li>
-                  <a>Link 1</a>
-                </li>
-                <li>
-                  <a>Link 2</a>
-                </li>
-              </ul>
-            </details>
+            <Link to="/register">Register</Link>
           </li>
         </ul>
         <div className="form-control">

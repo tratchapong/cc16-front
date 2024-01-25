@@ -1,6 +1,7 @@
 import {createBrowserRouter, RouterProvider, Outlet, Navigate} from 'react-router-dom'
 import Header from '../layouts/Header'
 import LoginForm from '../layouts/LoginForm'
+import RegisterForm from '../layouts/RegisterForm'
 
 const routerTeacher = createBrowserRouter([
   {
@@ -41,6 +42,7 @@ const routerGuest = createBrowserRouter([
     errorElement : <Navigate to='/' />,
     children: [
       { index: true, element: <LoginForm /> },
+      { path: '/register', element: <RegisterForm /> },
     ]
   }
 ])
