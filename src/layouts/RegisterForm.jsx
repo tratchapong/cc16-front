@@ -1,4 +1,6 @@
 import { useState } from "react";
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterForm() {
   const [input, setInput] = useState({
@@ -9,11 +11,13 @@ export default function RegisterForm() {
     confirmPassword: ""
   });
 
+  const navigate = useNavigate()
+
   const hdlChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const hdlSubmit = (e) => {
+  const hdlSubmit = async (e) => {
     e.preventDefault()
     let codeFor = (input.code.toLowerCase().startsWith('t'))? 't_code' : 's_code'
     const output = {
@@ -23,7 +27,14 @@ export default function RegisterForm() {
       password : input.password,
       confirmPassword : input.confirmPassword
     }
-    console.log(output)
+    // console.log(output)
+    try {
+      await axios.post('http://localhost:8899/auth/register', output)
+    } catch (err) {
+      console.log(err)
+      return alert(err.response?.data?.error)
+    }
+    navigate('/')
   }
   return (
     <div className="hero min-h-full bg-base-200">
@@ -105,7 +116,7 @@ export default function RegisterForm() {
               />
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
-                  กรุณาตรวจสอบรหัสให้ถูกต้อง
+                  กรุณาตรวจสอบรหัสนักศึกษาให้ถูกต้อง
                 </a>
               </label>
             </div>
