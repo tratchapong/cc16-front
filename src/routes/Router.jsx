@@ -1,9 +1,14 @@
 import {createBrowserRouter, RouterProvider, Outlet, Navigate} from 'react-router-dom'
+import Header from '../layouts/Header'
+import LoginForm from '../layouts/LoginForm'
 
 const routerTeacher = createBrowserRouter([
   {
     path : '/',
-    element: <Outlet />,
+    element: <>
+      <Header />
+      <Outlet />
+    </>,
     errorElement : <p className='text-4xl'>Page not found</p>,
     children: [
       { index: true, element: <p>Teacher Home</p> },
@@ -15,7 +20,10 @@ const routerTeacher = createBrowserRouter([
 const routerStudent = createBrowserRouter([
   {
     path : '/',
-    element: <Outlet />,
+    element: <>
+    <Header />
+    <Outlet />
+    </>,
     errorElement : <p className='text-4xl'>Page not found</p>,
     children: [
       { index: true, element: <p>Student Home</p> },
@@ -26,16 +34,19 @@ const routerStudent = createBrowserRouter([
 const routerGuest = createBrowserRouter([
   {
     path : '/',
-    element: <Outlet />,
+    element: <>
+    <Header />
+    <Outlet />
+    </>,
     errorElement : <Navigate to='/' />,
     children: [
-      { index: true, element: <p>Guest Home</p> },
+      { index: true, element: <LoginForm /> },
     ]
   }
 ])
 
 export default function Router() {
-  let userRole = undefined
+  let userRole = ''
   const finalRouter =  !userRole
     ? routerGuest
     : userRole==='teacher' ? routerTeacher : routerStudent

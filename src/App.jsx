@@ -1,22 +1,14 @@
 import { useState } from "react";
 import Router from "./routes/Router";
+import useTheme from "./hooks/useTheme";
 
 function App() {
-  const [toggle, setToggle] = useState(false);
+  const {theme} = useTheme()
 
-  const hdlToggle = () => {
-    setToggle(prv=>!prv)
-  }
   return (
-    <div className="min-h-screen flex flex-col gap-3" data-theme={toggle ? 'dark': 'cupcake'}>
-      <div className="prose">
-        <h1 className="underline">Hello world!</h1>
-      </div>
-      <div className="form-control">
-        <input type="checkbox" className="toggle" checked={toggle} onChange={hdlToggle} />
-      </div>
-    <hr />
-    <Router />
+    <div className="min-h-screen flex flex-col gap-3" data-theme={theme ? 'dark': 'cupcake'}>
+      <hr />
+      <Router />
     </div>
   );
 }
