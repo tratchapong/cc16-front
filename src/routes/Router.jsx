@@ -41,6 +41,7 @@ const routerGuest = createBrowserRouter([
     <Outlet />
     </>,
     errorElement : <Navigate to='/' />,
+    // errorElement : <p className='text-4xl'>Page not found</p>,
     children: [
       { index: true, element: <LoginForm /> },
       { path: '/register', element: <RegisterForm /> },

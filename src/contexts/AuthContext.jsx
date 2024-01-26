@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {useState, createContext, useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
+
 
 const AuthContext = createContext()
 
@@ -18,9 +20,13 @@ function AuthContextProvider(props) {
     run()
   },[])
 
+  const logout = () => {
+    localStorage.removeItem('token')
+    setUser(null)
+  }
 
   return (
-    <AuthContext.Provider value={{user, setUser}}>
+    <AuthContext.Provider value={{user, setUser, logout}}>
       {props.children}
     </AuthContext.Provider>
   )
