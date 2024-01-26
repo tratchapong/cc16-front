@@ -2,6 +2,7 @@ import {createBrowserRouter, RouterProvider, Outlet, Navigate} from 'react-route
 import Header from '../layouts/Header'
 import LoginForm from '../layouts/LoginForm'
 import RegisterForm from '../layouts/RegisterForm'
+import useAuth from '../hooks/useAuth'
 
 const routerTeacher = createBrowserRouter([
   {
@@ -48,7 +49,8 @@ const routerGuest = createBrowserRouter([
 ])
 
 export default function Router() {
-  let userRole = ''
+  const {user} = useAuth()
+  let userRole = user?.role
   const finalRouter =  !userRole
     ? routerGuest
     : userRole==='teacher' ? routerTeacher : routerStudent

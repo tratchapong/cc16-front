@@ -1,4 +1,7 @@
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
   const [input, setInput] = useState({
@@ -6,18 +9,28 @@ export default function LoginForm() {
     password: "",
   });
 
+  const{user, setUser} = useAuth()
+  const navigate = useNavigate()
+
   const hdlChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const hdlSubmit = (e) => {
+  const hdlSubmit = async (e) => {
     e.preventDefault()
     let codeFor = (input.code.toLowerCase().startsWith('t'))? 't_code' : 's_code'
     const output = {
       [codeFor] : input.code,
       password : input.password
     }
-    console.log(output)
+    const rs = await axios.post('http://localhost:8899/auth/login', output)
+    localStorage.setItem('token', rs.data)
+    const {data : userInfo} = await axios.get('http://localhost:8899/auth/me', {
+      headers : {
+        Authorization: `Bearer ${rs.data}`
+      }
+    })
+    setUser(userInfo)
   }
   return (
     <div className="hero min-h-full bg-base-200">
