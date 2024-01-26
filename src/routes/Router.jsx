@@ -3,6 +3,7 @@ import Header from '../layouts/Header'
 import LoginForm from '../layouts/LoginForm'
 import RegisterForm from '../layouts/RegisterForm'
 import useAuth from '../hooks/useAuth'
+import HomeworkForm from '../layouts/HomeworkForm'
 
 const routerTeacher = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const routerTeacher = createBrowserRouter([
     errorElement : <p className='text-4xl'>Page not found</p>,
     children: [
       { index: true, element: <p>Teacher Home</p> },
-      { path: '/new', element: <p>new Homework</p> },
+      { path: '/new', element: <HomeworkForm /> },
       { path: '/logout', element: <p>Logout</p> },
     ]
   }
