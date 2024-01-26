@@ -7,12 +7,6 @@ function App() {
   const {theme} = useTheme()
   const {user} = useAuth()
 
-  // if(!user) {
-  //   return (
-  //     <div className="text-4xl">Loading...</div>
-  //   )
-  // }
-
   return (
     <div className="min-h-screen flex flex-col gap-3" data-theme={theme ? 'dark': 'cupcake'}>
       <hr />
