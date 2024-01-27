@@ -33,10 +33,15 @@ export default function HomeworkForm() {
   const hdlSubmit = async (e) => {
     e.preventDefault()
     const token = localStorage.getItem('token')
+    try {    
     const rs = await axios.post('http://localhost:8899/homework', input, {
       headers : { Authorization : `Bearer ${token}`}
     })
-    alert(JSON.stringify(rs.data))
+    console.log(rs)
+    } catch (err) {
+      alert(JSON.stringify(err?.data?.response?.error))
+    }
+
   }
 
   return (
