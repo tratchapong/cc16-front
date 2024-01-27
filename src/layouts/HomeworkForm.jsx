@@ -14,11 +14,14 @@ export default function HomeworkForm() {
   const [subject, setSubject] = useState([])
 
   useEffect( ()=>{
+    const source = axios.CancelToken.source();
+
     const run = async () => {
-      const rs = await axios.get('http://localhost:8899/subject')
+      const rs = await axios.get('http://localhost:8899/subject',{ cancelToken: source.token })
       setSubject(rs.data.subject)
     }
     run()
+    return ()=> source.cancel()
   }, [] )
 
 

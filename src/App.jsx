@@ -5,9 +5,9 @@ import useAuth from "./hooks/useAuth";
 
 function App() {
   const {theme} = useTheme()
-  const {user} = useAuth()
+  const {user, loading} = useAuth()
 
-  if(!user) {
+  if(loading) {
     return (
       <div className="flex justify-center mt-40">
         <span className="loading loading-dots loading-lg scale-150 text-secondary"></span>
