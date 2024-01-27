@@ -1,4 +1,5 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -8,8 +9,18 @@ export default function HomeworkForm() {
     question: "",
     startdate: new Date(),
     duedate: new Date(),
-    publish: false,
+    published: false,
   });
+  const [subject, setSubject] = useState([])
+
+  useEffect( ()=>{
+    const run = async () => {
+      const rs = await axios.get('http://localhost:8899/subject')
+      setSubject(rs.data.subject)
+    }
+    run()
+  }, [] )
+
 
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
@@ -19,9 +30,13 @@ export default function HomeworkForm() {
     setInput((prv) => ({ ...prv, [field]: date }));
   };
 
-  const hdlSubmit = (e) => {
+  const hdlSubmit = async (e) => {
     e.preventDefault()
-    console.log(JSON.stringify(input))
+    const token = localStorage.getItem('token')
+    const rs = await axios.post('http://localhost:8899/homework', input, {
+      headers : { Authorization : `Bearer ${token}`}
+    })
+    alert(JSON.stringify(rs.data))
   }
 
   return (
@@ -41,10 +56,11 @@ export default function HomeworkForm() {
             <option value="" disabled>
               Please select..
             </option>
-            <option value="1">HTML</option>
-            <option value="2">CSS</option>
-            <option value="3">Javascript</option>
-            <option value="4">React.js</option>
+            { subject.map(el=>(
+              <option key={el.id} value={el.id}>{el.title}</option>
+            ))
+            }
+
           </select>
         </label>
         <label className="form-control w-full">
@@ -59,6 +75,17 @@ export default function HomeworkForm() {
             onChange={hdlChange}
           ></textarea>
         </label>
+        <div className="form-control w-full">
+          <label className="cursor-pointer label justify-start gap-2">
+            <input
+              type="checkbox"
+              className="toggle toggle-primary"
+              checked={input.published}
+              onChange={(e) => setInput((prv) => ({ ...prv, published: !prv.published }))}
+            />
+            <span className="label-text">published </span>
+          </label>
+        </div>
         <div className="flex justify-between">
           <label className="form-control w-full">
             <div className="label">
@@ -81,19 +108,9 @@ export default function HomeworkForm() {
             />
           </label>
         </div>
-        <div className="form-control w-full">
-          <label className="cursor-pointer label justify-start gap-2">
-            <input
-              type="checkbox"
-              className="toggle toggle-primary"
-              checked={input.publish}
-              onChange={(e) => setInput((prv) => ({ ...prv, publish: !prv.publish }))}
-            />
-            <span className="label-text">Publish </span>
-          </label>
-        </div>
+
         {/* <input type="date" onChange={e=>console.log(e.target.value)} /> */}
-        <button className="btn btn-outline btn-secondary mt-40">Submit</button>
+        <button className="btn btn-outline btn-secondary mt-60">Submit</button>
       </form>
     </div>
   );
