@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
-import { json } from 'react-router-dom'
 
 export default function TeacherHome() {
   const [homework, setHomework] = useState([])
@@ -21,7 +20,7 @@ export default function TeacherHome() {
       <h1 className="text-4xl">All Homework</h1>
       <div className="prose">
       <ul>
-      {homework.map(el => (
+      {homework?.map(el => (
         <li key={el.id}>{JSON.stringify(el)}</li>
         ))}
       </ul>
