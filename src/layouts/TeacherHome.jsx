@@ -6,8 +6,10 @@ import ModalEditForm from "./ModalEditForm";
 export default function TeacherHome() {
   const [homework, setHomework] = useState([]);
   const [editData, setEditData] = useState({});
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     const source = axios.CancelToken.source();
     (async () => {
       let token = localStorage.getItem("token");
@@ -16,6 +18,7 @@ export default function TeacherHome() {
         cancelToken: source.token,
       });
       setHomework(rs.data.homework);
+      setLoading(false)
     })();
     return () => source.cancel();
   }, []);
@@ -27,6 +30,14 @@ export default function TeacherHome() {
 
   const closeEdit = () => {
     document.getElementById('edit_modal').close()
+  }
+
+  if(loading) {
+    return (
+      <div className="flex justify-center mt-40">
+        <span className="loading loading-dots loading-lg scale-150 text-secondary"></span>
+      </div>
+    )
   }
 
   return (
@@ -41,7 +52,7 @@ export default function TeacherHome() {
       </div>
       <dialog id="edit_modal" className="modal">
         <div className="modal-box">
-          <ModalEditForm el={editData} closeEdit={closeEdit} />
+          { editData.id && <ModalEditForm el={editData} closeEdit={closeEdit} />}
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>

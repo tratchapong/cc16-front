@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 export default function ModalEditForm(props) {
   const { el, closeEdit } = props;
+  console.log(el)
   const [input, setInput] = useState({
     subject_id: '',
     question: '',
@@ -46,17 +47,16 @@ export default function ModalEditForm(props) {
   const hdlSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
-    // try {
-    // const rs = await axios.put('http://localhost:8899/homework', input, {
-    //   headers : { Authorization : `Bearer ${token}`}
-    // })
-    // console.log(rs)
-    // } catch (err) {
-    //   alert(JSON.stringify(err?.data?.response?.error))
-    // }
-
+    try {
+    const rs = await axios.put(`http://localhost:8899/homework/${el.id}`, input, {
+      headers : { Authorization : `Bearer ${token}`}
+    })
+    } catch (err) {
+      alert(JSON.stringify(err?.data?.response?.error))
+    }
     closeEdit();
-  };
+  }
+
   return (
     <form className="flex flex-col gap-2" onSubmit={hdlSubmit}>
       <label className="form-control w-full max-w-xs">
@@ -124,8 +124,10 @@ export default function ModalEditForm(props) {
           />
         </label>
       </div>
-
-      <button className="btn btn-outline btn-secondary mt-60">Submit</button>
+      <div className="flex mt-60">
+      <button type="submit" className="btn btn-outline btn-primary flex-1">Submit</button>
+      <button type="button" onClick={closeEdit} className="btn btn-outline btn-secondary flex-1">Cancel</button>
+      </div>
     </form>
   );
 }
