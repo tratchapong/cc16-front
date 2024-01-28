@@ -54,7 +54,7 @@ export default function TeacherHome() {
         <h1 className="text-2xl text-center">All Homework</h1>
         <hr />
         {homework.map((el) => (
-          <HomeworkCard key={el.id} el={el} openEdit={openEdit} closeEdit={closeEdit} />
+          <HomeworkCard key={el.id} el={el} openEdit={openEdit} closeEdit={closeEdit} setReload={setReload} />
         ))}
       </div>
       <dialog id="edit_modal" className="modal">
