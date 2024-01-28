@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function ModalEditForm(props) {
-  const { el, closeEdit } = props;
+  const { el, closeEdit, reload, setReload } = props;
   console.log(el)
   const [input, setInput] = useState({
     subject_id: '',
@@ -18,9 +18,14 @@ export default function ModalEditForm(props) {
 
   useEffect(() => {
     const source = axios.CancelToken.source();
+    let rs
     const run = async () => {
-      const rs = await axios.get("http://localhost:8899/subject", { cancelToken: source.token });
-      setSubject(rs.data.subject);
+      try {
+        rs = await axios.get("http://localhost:8899/subject", { cancelToken: source.token });
+        setSubject(rs.data.subject);
+      } catch (err) {
+        console.log(err)
+      }
     };
     run();
     return () => source.cancel();
@@ -34,7 +39,7 @@ export default function ModalEditForm(props) {
       duedate: el.duedate ? new Date(el.duedate) : new Date(),
       published: el.published,
     });
-  }, [props.el.id]);
+  }, [el.id,el.subject_id,el.question,el.startdate,el.duedate,el.published]);
 
   const hdlChange = (e) => {
     setInput((prv) => ({ ...prv, [e.target.name]: e.target.value }));
@@ -55,6 +60,7 @@ export default function ModalEditForm(props) {
       alert(JSON.stringify(err?.data?.response?.error))
     }
     closeEdit();
+    setReload(prv=>!prv)
   }
 
   return (

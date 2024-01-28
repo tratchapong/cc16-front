@@ -17,8 +17,12 @@ export default function HomeworkForm() {
     const source = axios.CancelToken.source();
 
     const run = async () => {
-      const rs = await axios.get('http://localhost:8899/subject',{ cancelToken: source.token })
-      setSubject(rs.data.subject)
+      try {      
+        const rs = await axios.get('http://localhost:8899/subject',{ cancelToken: source.token })
+        setSubject(rs.data.subject)
+      }catch(err) {
+        console.log(err.message)
+      }
     }
     run()
     return ()=> source.cancel()
@@ -64,7 +68,7 @@ export default function HomeworkForm() {
             <option value="" disabled>
               Please select..
             </option>
-            { subject.map(el=>(
+            { subject?.length > 0 && subject.map(el=>(
               <option key={el.id} value={el.id}>{el.title}</option>
             ))
             }
