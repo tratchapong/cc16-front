@@ -5,6 +5,7 @@ import RegisterForm from '../layouts/RegisterForm'
 import useAuth from '../hooks/useAuth'
 import HomeworkForm from '../layouts/HomeworkForm'
 import TeacherHome from '../layouts/TeacherHome'
+import StudentHome from '../layouts/StudentHome'
 
 const routerTeacher = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const routerStudent = createBrowserRouter([
     </>,
     errorElement : <p className='text-4xl'>Page not found</p>,
     children: [
-      { index: true, element: <p>Student Home</p> },
+      { index: true, element: <StudentHome /> },
     ]
   }
 ])

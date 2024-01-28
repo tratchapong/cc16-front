@@ -9,7 +9,7 @@ function App() {
 
   if(loading) {
     return (
-      <div className="flex justify-center mt-40">
+      <div className="flex justify-center mt-40" data-theme={theme ? 'dark': 'cupcake'}>
         <span className="loading loading-dots loading-lg scale-150 text-secondary"></span>
       </div>
     )

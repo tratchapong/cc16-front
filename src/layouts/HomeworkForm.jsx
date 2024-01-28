@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useNavigate } from "react-router-dom";
 
 export default function HomeworkForm() {
   const [input, setInput] = useState({
@@ -12,6 +13,8 @@ export default function HomeworkForm() {
     published: false,
   });
   const [subject, setSubject] = useState([])
+
+  const navigate = useNavigate()
 
   useEffect( ()=>{
     const source = axios.CancelToken.source();
@@ -48,7 +51,7 @@ export default function HomeworkForm() {
     } catch (err) {
       alert(JSON.stringify(err?.data?.response?.error))
     }
-
+    navigate('/')
   }
 
   return (
@@ -72,7 +75,6 @@ export default function HomeworkForm() {
               <option key={el.id} value={el.id}>{el.title}</option>
             ))
             }
-
           </select>
         </label>
         <label className="form-control w-full">
